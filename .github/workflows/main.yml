@@ -1,0 +1,45 @@
+name: Test Package Download Without Cache
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch: # Allows manual triggering
+
+jobs:
+  download:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout the repository
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      # Step 2: Start timer
+      - name: Start timer
+        id: start-time
+        run: echo "start_time=$(date +%s)" >> $GITHUB_ENV
+
+      # Step 3: Download packages (e.g., using npm or pip)
+      - name: Download Packages
+        run: |
+          echo "Installing some packages..."
+          npm install \
+            axios \
+            lodash \
+            moment \
+            react \
+            express \
+            typescript \
+            next \
+            vue \
+            react-dom \
+            three \
+            @angular/core
+
+      # Step 4: End timer and calculate elapsed time
+      - name: Measure elapsed time
+        run: |
+          end_time=$(date +%s)
+          elapsed=$((end_time - $start_time))
+          echo "Time taken: ${elapsed} seconds"
